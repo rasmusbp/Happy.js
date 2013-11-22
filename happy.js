@@ -61,10 +61,13 @@
         gotFunc = ((val.length > 0 || required === 'sometimes') && isFunction(opts.test));
         
         // check if we've got an error on our hands
-        if (submit === true && required === true && val.length === 0) {
+        var check = submit === true || submit.type === 'blur';
+        if (check === true && required === true && val.length === 0) {
           error = true;
         } else if (gotFunc) {
-          error = !opts.test(val, arg);
+          if (!( val.length === 0 && required === 'sometimes')) {
+              error = !opts.test(val, arg);
+          }
         }
         
         if (error) {
